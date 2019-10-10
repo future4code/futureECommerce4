@@ -1,6 +1,14 @@
 import React from 'react';
 import './App.css';
-import {ItemProduto} from './components/ItemProduto/ItemProduto'
+import styled from 'styled-components';
+import {ItemProduto} from './components/ItemProduto/ItemProduto';
+import Filtro from './components/Filtro/Filtro';
+
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+`
 
 const listaDeBrinquedos = [{
   id: 1,
@@ -69,12 +77,12 @@ class App extends React.Component {
     });
    
     return (
-      <div>
-        {listaTodosBrinquedos}
-        
-          
-        
-        </div>
+      <Container>
+          <Filtro/>
+        <div>
+          {listaTodosBrinquedos}
+        </div>  
+      </Container>
       
     )
   }
