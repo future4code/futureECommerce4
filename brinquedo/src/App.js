@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {ItemProduto} from './components/ItemProduto/ItemProduto'
 import styled from 'styled-components'
+import Filtro from './components/Filtro/Filtro';
 
 const AppWrapper = styled.div`
   display: grid;
@@ -13,6 +14,12 @@ const AppWrapper = styled.div`
 const Selecao = styled.div`
   display: flex;
   align-content: space-between;
+`
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
 `
 
 const listaDeBrinquedos = [{
@@ -85,19 +92,21 @@ class App extends React.Component {
       <div>
         <Selecao>
         <div><p>Quantidade de produtos {quantidade}</p></div>
-        <div><select name="" id="">
-          <option value="">Crescente</option>
-          <option value="">Decrescente</option>
-        </select>
+        <div>
+          <select name="" id="">
+            <option value="">Crescente</option>
+            <option value="">Decrescente</option>
+          </select>
         </div>
         </Selecao>
         <AppWrapper>
-        {listaTodosBrinquedos}
+          {listaTodosBrinquedos}
         </AppWrapper>
-          
-        
-        
-        </div>
+        <Container>
+          <Filtro/>
+        </Container>
+       </div>
+
     )
   }
 }
