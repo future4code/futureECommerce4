@@ -41,6 +41,8 @@ class Filtro extends React.Component {
     }
 
     render() {
+
+
         return (
             <ContainerFiltro>
                 <h3>Filtros</h3>
@@ -74,6 +76,10 @@ class Filtro extends React.Component {
                     value = {this.state.filtroBusca}
                     onChange = {this.onChangeBuscar}
                 />
+
+
+                <input/>
+                
             </ContainerFiltro>
         );
     }
