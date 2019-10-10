@@ -6,7 +6,7 @@ import Filtro from './components/Filtro/Filtro';
 
 const AppWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 10px;
   gap: 20px;
 `
@@ -14,6 +14,7 @@ const AppWrapper = styled.div`
 const Selecao = styled.div`
   display: flex;
   align-content: space-between;
+  align-items:center;
 `
 
 const Container = styled.div`
@@ -80,32 +81,36 @@ class App extends React.Component {
 
       
     }
-  }
-
-
+  } 
   render() {
+
     const listaTodosBrinquedos = listaDeBrinquedos.map(cadabrinquedo => {
       return <ItemProduto ItemProduto={cadabrinquedo} />;
+
     });
     let quantidade = listaDeBrinquedos.length
     return (
-      <div>
-        <Selecao>
-        <div><p>Quantidade de produtos {quantidade}</p></div>
+      <Container>
+        <Filtro/>
+
         <div>
-          <select name="" id="">
-            <option value="">Crescente</option>
-            <option value="">Decrescente</option>
-          </select>
+          <Selecao>
+            <div><p>Quantidade de produtos {quantidade}</p></div>
+            <div>
+              <select name="" id="">
+                <option value="">Crescente</option>
+                <option value="">Decrescente</option>
+              </select>
+            </div>
+          </Selecao>
+
+          <AppWrapper>
+              {listaTodosBrinquedos}
+          </AppWrapper>
         </div>
-        </Selecao>
-        <AppWrapper>
-          {listaTodosBrinquedos}
-        </AppWrapper>
-        <Container>
-          <Filtro/>
-        </Container>
-       </div>
+  
+        
+       </Container>
 
     )
   }

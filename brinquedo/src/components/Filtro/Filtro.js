@@ -77,9 +77,6 @@ class Filtro extends React.Component {
                     onChange = {this.onChangeBuscar}
                 />
 
-
-                <input/>
-                
             </ContainerFiltro>
         );
     }
