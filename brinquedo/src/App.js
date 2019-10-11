@@ -82,6 +82,11 @@ class App extends React.Component {
       brinquedos: listaDeBrinquedos,
       carrinho: [],
       mostraCarrinho: false,
+      filtros: {
+        valorMax: null,
+        valorMin: null,
+      },
+      buscarBrinquedo: '',
 
      }
     }
@@ -100,10 +105,10 @@ class App extends React.Component {
         }
       
       this.setState({
-      carrinho: novoCarrinho
-      
+      carrinho: novoCarrinho,
+           
       })
-      console.log(this.state.carrinho)
+      
     }
 
     removeProdutoCarrinho = () => {
@@ -118,17 +123,63 @@ class App extends React.Component {
     }
   
   
-  render() {
+  
 
-    const listaTodosBrinquedos = listaDeBrinquedos.map(cadabrinquedo => {
-      return <ItemProduto produto={cadabrinquedo}  adicionaAoCarrinho={this.adicionaAoCarrinho} />;
+  atualizarValorFiltro = (novoFiltroValor) => {
+    this.setState({
+      filtros: {
+        ...this.state.filtros,
+        ...novoFiltroValor,
+      },
+    })
+  }
+
+  
+
+  filtrarBrinquedos(listaParaFiltrar) {
+    const {filtros, buscarBrinquedo } = this.state
+    
+    let filtrarBrinquedo = listaParaFiltrar
+      .filter((cadabrinquedo) => {
+        const nomeBrinquedo = cadabrinquedo.nome.toLowerCase()
+        return nomeBrinquedo.indexOf(buscarBrinquedo.toLowerCase()) > -1
+      }) 
+      .filter((cadabrinquedo) => {
+        return cadabrinquedo.valor < (filtros.valorMax || Infinity)})
+      .filter((cadabrinquedo) => {
+        return cadabrinquedo.valor > (filtros.valorMin || 0)
+      })
+      
+    return filtrarBrinquedo
+    
+  }
+
+  atualizarValorBusca = (event) => {
+    this.setState({
+      buscarBrinquedo: event.target.value,
+    })
+  }
+
+
+  render() {
+    // let brinquedosOrdenados = this.ordenaBrinquedos()
+
+    let filtrarCadaBrinquedo = this.filtrarBrinquedos(listaDeBrinquedos)
+
+    const listaTodosBrinquedos = filtrarCadaBrinquedo.map(cadabrinquedo => {
+      return <ItemProduto produto={cadabrinquedo} adicionaAoCarrinho={this.adicionaAoCarrinho}/>;
+
     });
 
     let quantidade = listaDeBrinquedos.length
 
     return (
       <Container>
-        <Filtro/>
+        <Filtro
+          novoFiltro={this.atualizarValorFiltro}
+          filtroBusca={this.state.buscarBrinquedo}
+          filtroValorBusca={this.atualizarValorBusca}
+        />
 
         <div>
           <Selecao>
@@ -146,12 +197,10 @@ class App extends React.Component {
           </AppWrapper>
           <Carrinho conteudoCarrinho={this.state.carrinho} removeProdutoCarrinho={this.removeProdutoCarrinho}/>
         </div>
-  
-        
-       </Container>
+        </Container>
 
-    )
-  }
+)
+}
 }
 
 export default App

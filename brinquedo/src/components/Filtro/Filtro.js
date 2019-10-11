@@ -1,86 +1,100 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
 
 const ContainerFiltro = styled.div `
-    width: 300px;
-    height: 400px;
+    width: 80%;
+    height: 250px;
     border: 1px solid black;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 `
 
+const ContainerBusca = styled.div `
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: flex-end;  
+`
 
-class Filtro extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            filtroValorMax: '',
-            filtroValorMin: '',
-            filtroBusca: '',
-        };
+const Filtro = (props) => {
+
+    const filtroValorMax = (event) => {
+        const value = Number(event.target.value)
+
+        const novoFiltroValor = {
+            'valorMax': value,
+        }
+
+        props.novoFiltro(novoFiltroValor)
     }
 
-    onChangeValorMax = (event) => {
-        this.setState ({
-            filtroValorMax: event.target.value
-        })
+    const filtroValorMin = (event) => {
+        const value = Number(event.target.value)
+
+        const novoFiltroValor = {
+            'valorMin': value,
+        }
+        props.novoFiltro(novoFiltroValor)
     }
-
-    onChangeValorMin = (event) => {
-        this.setState({
-            filtroValorMin: event.target.value
-        })
-    }
-
-    onChangeBuscar = (event) => {
-        this.setState ({
-            filtroBusca: event.target.value
-        })
-    }
-
-    render() {
-
 
         return (
             <ContainerFiltro>
                 <h3>Filtros</h3>
 
-                <label>Valor Mínimo:</label>
+                <ContainerBusca>
+                    <label htmlFor="valorMin">Valor Mínimo:</label>
 
-                <input
-                    id="valorMinimo"
-                    type="number"
-                    placeholder="Valor Mínimo"
-                    value = {this.state.filtroValorMin}
-                    onChange = {this.onChangeValorMin}
-                />
-                
-                <label>Valor Máximo:</label>
+                    <input
+                        id="valorMin"
+                        name="valorMin"
+                        type="number"
+                        placeholder="Valor Mínimo"
+                        min={0}
+                        onChange = {filtroValorMin}
+                    />
+                </ContainerBusca>
 
-                <input
-                    id="valorMaximo"
-                    type="number"
-                    placeholder="Valor Máximo"
-                    value = {this.state.filtroValorMax}
-                    onChange = {this.onChangeValorMax}
-                />
+                <ContainerBusca>
+                    <label htmlFor="valorMax">Valor Máximo:</label>
 
-                <label>Buscar Produtos:</label>
+                    <input
+                        id="valorMax"
+                        name="valorMax"
+                        type="number"
+                        placeholder="Valor Máximo"
+                        min = {0}
+                        onChange = {filtroValorMax}
+                    />
+                </ContainerBusca>
 
-                <input
-                    id="buscarProdutos"
-                    type="text"
-                    placeholder="Buscar Produtos"
-                    value = {this.state.filtroBusca}
-                    onChange = {this.onChangeBuscar}
-                />
+                <ContainerBusca>
+                    <label htmlFor="busca">Buscar:</label>
+
+                    <input
+                        id="busca"
+                        name="busca"
+                        type="text"
+                        placeholder="Buscar Produtos"
+                        value = {props.filtroBusca}
+                        onChange = {props.filtroValorBusca}
+                    />
+                </ContainerBusca>
 
             </ContainerFiltro>
         );
-    }
 }
+
+Filtro.propTypes = {
+    novoFiltro: PropTypes.func.isRequired,
+    filtroValorBusca: PropTypes.func.isRequired,
+    filtroBusca: PropTypes.string.isRequired,
+  }
+  
 
 export default Filtro;
 
