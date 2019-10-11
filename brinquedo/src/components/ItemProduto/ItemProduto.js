@@ -25,25 +25,29 @@ const Card = styled.div`
 `
 
  export function ItemProduto(props) {
-    const { ItemProduto, onAddToCart } = props;
+    const { produto } = props;
   
+    const aoClicarNoBotao = () => {
+      props.adicionaAoCarrinho(produto)
+    }
+
     return (
       <Card>
         <ImagemBrinquedo
-          src={ItemProduto.imagem}
+          src={produto.imagem}
           alt="Image picture"
         />
-        <p>{ItemProduto.nome}</p>
-        <p>R${ItemProduto.valor.toFixed(2)}</p>
-        <p>#{ItemProduto.tipo}</p>
-        <AddToCartButton onClick={onAddToCart}>Adicionar ao Carrinho</AddToCartButton>
+        <p>{produto.nome}</p>
+        <p>R${produto.valor.toFixed(2)}</p>
+        <p>#{produto.tipo}</p>
+        <AddToCartButton onClick= {aoClicarNoBotao}>Adicionar ao Carrinho</AddToCartButton>
       </Card>
     )
   }
   
   ItemProduto.propTypes = {
     product: PropTypes.object.isRequired,
-    onAddToCart: PropTypes.func.isRequired,
+    adicionaAoCarrinho: PropTypes.func.isRequired,
   }
   
   export default ItemProduto
