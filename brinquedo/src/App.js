@@ -20,7 +20,6 @@ const Selecao = styled.div`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 4fr;
-
 `
 
 const listaDeBrinquedos = [{
@@ -78,20 +77,69 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      buscarBrinquedo: '',
+      filtros: {
+        valorMax: null,
+        valorMin: null,
+      }
       
     }
   } 
-  render() {
 
-    const listaTodosBrinquedos = listaDeBrinquedos.map(cadabrinquedo => {
+  atualizarValorFiltro = (novoFiltroValor) => {
+    this.setState({
+      filtros: {
+        ...this.state.filtros,
+        ...novoFiltroValor,
+      },
+    })
+  }
+
+  
+
+  filtrarBrinquedos(listaParaFiltrar) {
+    const {filtros, buscarBrinquedo } = this.state
+    
+    let filtrarBrinquedo = listaParaFiltrar
+      .filter((cadabrinquedo) => {
+        const nomeBrinquedo = cadabrinquedo.nome.toLowerCase()
+        return nomeBrinquedo.indexOf(buscarBrinquedo.toLowerCase()) > -1
+      }) 
+      .filter((cadabrinquedo) => {
+        return cadabrinquedo.valor < (filtros.valorMax || Infinity)})
+      .filter((cadabrinquedo) => {
+        return cadabrinquedo.valor > (filtros.valorMin || 0)
+      })
+      
+    return filtrarBrinquedo
+    
+  }
+
+  atualizarValorBusca = (event) => {
+    this.setState({
+      buscarBrinquedo: event.target.value,
+    })
+  }
+
+
+  render() {
+    // let brinquedosOrdenados = this.ordenaBrinquedos()
+
+    let filtrarCadaBrinquedo = this.filtrarBrinquedos(listaDeBrinquedos)
+
+    const listaTodosBrinquedos = filtrarCadaBrinquedo.map(cadabrinquedo => {
       return <ItemProduto ItemProduto={cadabrinquedo} />;
 
     });
     let quantidade = listaDeBrinquedos.length
+
     return (
       <Container>
-        <Filtro/>
+        <Filtro
+          novoFiltro={this.atualizarValorFiltro}
+          filtroBusca={this.state.buscarBrinquedo}
+          filtroValorBusca={this.atualizarValorBusca}
+        />
 
         <div>
           <Selecao>
@@ -108,12 +156,10 @@ class App extends React.Component {
               {listaTodosBrinquedos}
           </AppWrapper>
         </div>
-  
-        
-       </Container>
+        </Container>
 
-    )
-  }
+)
+}
 }
 
 export default App
